@@ -70,12 +70,21 @@ class ElectrostaticsApp:
         self.xy_max_entry.grid(row=10, column=0, pady=(0, 20))
         self.xy_max_entry.insert(0, default_xy_max)
 
-        ttk.Button(self.settings_frame, text="Adicionar Carga", command=self.add_charge).grid(
-            row=11, column=0, pady=10)
-        ttk.Button(self.settings_frame, text="Redesenhar Gráfico",
-                   command=self.redraw_graph).grid(row=12, column=0, pady=(0, 10))
-        ttk.Button(self.settings_frame, text="Remover todas as cargas",
-                   command=self.remove_charges).grid(row=13, column=0, pady=(0, 10))
+        ttk.Label(self.settings_frame, text="Coord. do último ponto selecionado:").grid(row=11, column=0, pady=10)
+        self.coordenadas_up = ttk.Label(self.settings_frame)        
+        self.coordenadas_up.grid(row=12, column=0, pady=10)
+        ttk.Label(self.settings_frame, text="Pot. do último ponto selecionado:").grid(row=12, column=0, pady=10)
+        self.potencial_up = ttk.Label(self.settings_frame)
+        self.potencial_up.grid(row=12, column=0, pady=10)
+
+
+
+        # ttk.Button(self.settings_frame, text="Adicionar Carga", command=self.add_charge).grid(
+        #     row=11, column=0, pady=10)
+        # ttk.Button(self.settings_frame, text="Redesenhar Gráfico",
+        #            command=self.redraw_graph).grid(row=12, column=0, pady=(0, 10))
+        # ttk.Button(self.settings_frame, text="Remover todas as cargas",
+        #            command=self.remove_charges).grid(row=13, column=0, pady=(0, 10))
 
         # Gráficos
         self.config_graph()
@@ -121,7 +130,7 @@ class ElectrostaticsApp:
                                                     float(self.constant_entry.get()))
                 # Desenhar a linha potencial correspondente no gráfico
                 plt.contour(X, Y, Z, levels=[
-                            potencial_matrix[i, j]], colors='green', linestyles='solid', linewidths=1)
+                            potencial_matrix[i, j]], colors='red', linestyles='solid', linewidths=1)
         
         plt.draw()
 
@@ -147,7 +156,7 @@ class ElectrostaticsApp:
 
             # Desenhar a linha potencial correspondente no gráfico
             plt.contour(X, Y, Z, levels=[
-                        potencial], colors='green', linestyles='solid', linewidths=1)
+                        potencial], colors='red', linestyles='solid', linewidths=1)
             plt.draw()
 
         # Linhas de contorno negativas sólidas
