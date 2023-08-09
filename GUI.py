@@ -70,21 +70,21 @@ class ElectrostaticsApp:
         self.xy_max_entry.grid(row=10, column=0, pady=(0, 20))
         self.xy_max_entry.insert(0, default_xy_max)
 
-        ttk.Label(self.settings_frame, text="Coord. do último ponto selecionado:").grid(row=11, column=0, pady=10)
-        self.coordenadas_up = ttk.Label(self.settings_frame)        
-        self.coordenadas_up.grid(row=12, column=0, pady=10)
-        ttk.Label(self.settings_frame, text="Pot. do último ponto selecionado:").grid(row=12, column=0, pady=10)
-        self.potencial_up = ttk.Label(self.settings_frame)
-        self.potencial_up.grid(row=12, column=0, pady=10)
+        ttk.Label(self.settings_frame, text="Coord. do último ponto selecionado:").grid(row=11, column=0)
+        self.coordenadas_up = ttk.Label(self.settings_frame, text="Nenhum ponto selecionado!")        
+        self.coordenadas_up.grid(row=12, column=0, pady=(0, 10))
+        ttk.Label(self.settings_frame, text="Pot. do último ponto selecionado:").grid(row=13, column=0)
+        self.potencial_up = ttk.Label(self.settings_frame, text="Nenhum ponto selecionado!")
+        self.potencial_up.grid(row=14, column=0, pady=(0, 10))
 
 
 
-        # ttk.Button(self.settings_frame, text="Adicionar Carga", command=self.add_charge).grid(
-        #     row=11, column=0, pady=10)
-        # ttk.Button(self.settings_frame, text="Redesenhar Gráfico",
-        #            command=self.redraw_graph).grid(row=12, column=0, pady=(0, 10))
-        # ttk.Button(self.settings_frame, text="Remover todas as cargas",
-        #            command=self.remove_charges).grid(row=13, column=0, pady=(0, 10))
+        ttk.Button(self.settings_frame, text="Adicionar Carga", command=self.add_charge).grid(
+            row=15, column=0, pady=10)
+        ttk.Button(self.settings_frame, text="Redesenhar Gráfico",
+                   command=self.redraw_graph).grid(row=16, column=0, pady=(0, 10))
+        ttk.Button(self.settings_frame, text="Remover todas as cargas",
+                   command=self.remove_charges).grid(row=17, column=0, pady=(0, 10))
 
         # Gráficos
         self.config_graph()
@@ -144,9 +144,14 @@ class ElectrostaticsApp:
             # Cliques fora do gráfico não são considerados
             if (click_x == None or click_y == None or self.electric_charges == []):
                 return
-
+            
             potencial = calcular_potencial(
                 self.electric_charges, click_x, click_y, float(self.constant_entry.get()))
+            
+            # Atualiza tkinter com valores
+            self.coordenadas_up.config(text=f'({round(click_x, 2)}m, {round(click_y, 2)}m)')
+            self.potencial_up.config(text=f'{round(potencial, 3)} V (J/C)')
+            
             print(
                 f"Potencial elétrico em ({round(click_x, 2)}m, {round(click_y, 2)}m) = {round(potencial, 3)} V (J/C)")
             X, Y, Z = achar_linha_equipotencial(self.electric_charges, click_x, click_y, float(self.xy_min_entry.get()),
